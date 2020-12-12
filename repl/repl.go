@@ -7,6 +7,7 @@ import (
 
 	"github.com/shunsukesan/monkey/evaluator"
 	"github.com/shunsukesan/monkey/lexer"
+	"github.com/shunsukesan/monkey/object"
 	"github.com/shunsukesan/monkey/parser"
 )
 
@@ -32,8 +33,9 @@ func Start(in io.Reader, out io.Writer) {
 			printParserErrors(out, p.Errors())
 			continue
 		}
+		env := object.NewEnvironment()
 
-		evaluated := evaluator.Eval(program)
+		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
