@@ -18,6 +18,7 @@ const (
 	RETURN_VALUE_OBJ = "RETURN_VALUE"
 	FUNCTION_OBJ     = "FUNCTION"
 	ERROR_OBJ        = "ERROR"
+	BUILDIN_OBJ      = "BUILDIN"
 )
 
 type Object interface {
@@ -89,3 +90,12 @@ type Error struct {
 
 func (e *Error) Type() ObjectType { return ERROR_OBJ }
 func (e *Error) Inspect() string  { return "ERROR: " + e.Message }
+
+type BuildinFunction func(args ...Object) Object
+
+type Buildin struct {
+	Fn BuildinFunction
+}
+
+func (b *Buildin) Type() ObjectType { return BUILDIN_OBJ }
+func (b *Buildin) Inspect() string  { return "buildin function" }
